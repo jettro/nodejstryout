@@ -1,0 +1,17 @@
+h1 #{title}
+div
+    div
+        a(href='/') Blog items
+
+    div
+        form(method="post")
+            fieldset
+                legend new blog item
+                p
+                    label(for="new_title") Title:
+                        input(type="text", name="new_title", size="50")
+                p
+                    label(for="new_body") Body:
+                        textarea(name="new_body", cols="50", rows="5")
+            p.buttons
+                input(type="submit", value="Save")

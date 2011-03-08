@@ -1,0 +1,8 @@
+h1 My blog
+div#articles
+    - each blog in docs
+        div.article
+            div.title #{blog.title}
+            div.created_at #{blog.created_at}
+            div.body #{blog.body}
+

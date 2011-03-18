@@ -1,7 +1,9 @@
 !!! 5
 html(lang="en")
-  head
-    title My Blog
-    link(href="/style/style.css", media="screen", rel="stylesheet", type="text/css")
-  body
-    div!= body
+    head
+        title My Blog
+        link(href="/style/style.css", media="screen", rel="stylesheet", type="text/css")
+        script(src='/socket.io/socket.io.js')
+        script(src='/javascript/socket-connect.js')
+    body
+        div!= body

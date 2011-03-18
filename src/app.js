@@ -38,3 +38,15 @@ app.post('/blog/new', function (req, res) {
 
 app.listen(3000);
 console.log('Express server started on port %s', app.address().port);
+
+var io = require('socket.io');
+var socket = io.listen(app);
+socket.on('connection', function(client) {
+    console.log('A client connected');
+    client.on('message',function() {
+        console.out('Receveived a message from the client');
+    });
+    client.on('disconnect', function() {
+        console.out('Client disconnected');
+    });
+});

@@ -1,4 +1,5 @@
 var express = require('express');
+var io = require('socket.io');
 
 var pub = __dirname + '/public';
 
@@ -6,10 +7,12 @@ var app = express.createServer();
 
 var ArticleProvider = require('./articleprovider-memory').ArticleProvider;
 
+var socket = io.listen(app);
+
 app.configure(function() {
     app.set('view engine', 'jade');
     app.set('views', __dirname + '/views');
-    app.use(express.compiler({ src: pub, enable: ['sass'] }))
+    app.use(express.compiler({ src: pub, enable: ['sass'] }));
     app.use(express.methodOverride());
     app.use(express.static(pub));
     app.use(express.logger());
@@ -32,21 +35,27 @@ app.post('/blog/new', function (req, res) {
     console.log('The provided title is : %s',req.body.new_title);
     articleProvider.save({title: req.body.new_title, body: req.body.new_body},
             function(error, docs) {
+                socket.emit('saved');
                 res.redirect('/');
             });
 });
 
-app.listen(3000);
+app.listen(8008);
 console.log('Express server started on port %s', app.address().port);
 
-var io = require('socket.io');
-var socket = io.listen(app);
 socket.on('connection', function(client) {
     console.log('A client connected');
+    client.broadcast({ announcement: client.sessionId + ' connected' });
+    
     client.on('message',function() {
-        console.out('Receveived a message from the client');
+        console.log('Received a message from the client');
+
     });
     client.on('disconnect', function() {
-        console.out('Client disconnected');
+        console.log('Client disconnected');
     });
+});
+
+socket.on('saved',function() {
+    console.log('Yep it is saved and I received an event!!');
 });

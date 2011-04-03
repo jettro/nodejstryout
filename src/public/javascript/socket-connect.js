@@ -1,5 +1,5 @@
-var node_server_url='/';
-var socket = new io.Socket(node_server_url);
+var node_server_url='localhost';
+var socket = new io.Socket();
 socket.connect();
 socket.on('connect', function() {
     alert('Connected to the server');

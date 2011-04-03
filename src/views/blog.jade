@@ -8,3 +8,6 @@ div#articles
             div.created_at #{blog.created_at}
             div.body #{blog.body}
 div#helloworld
+    span Enter a message to be echoed
+    input(type="text", name="new_hello", size="50")
+    input(type="button", value="Echo", onClick="javascript:socket.send('Check what I can do')")

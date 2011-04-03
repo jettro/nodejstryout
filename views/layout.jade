@@ -4,6 +4,8 @@ html(lang="en")
         title My Blog
         link(href="/style/style.css", media="screen", rel="stylesheet", type="text/css")
         script(src='/socket.io/socket.io.js')
+        script(src='/javascript/jquery-1.5.2.min.js')
         script(src='/javascript/socket-connect.js')
     body
-        div!= body
+        div#message
+        div#body!= body

@@ -15,6 +15,9 @@ h1 {
   text-shadow: 1px 2px 2px #ddd;
   font-size: 60px;}
 
+#body {
+  float: left;}
+
 #articles {
   text-align: left;
   margin-left: auto;
@@ -30,3 +33,10 @@ h1 {
   background-color: #eee;}
 #articles .article .body {
   background-color: #ffa;}
+
+#message {
+  width: 200px;
+  float: right;}
+#message div {
+  border: 1px solid black;
+  margin: 2px;}

@@ -47,8 +47,9 @@ socket.on('connection', function(client) {
     console.log('A client connected');
     client.broadcast({ announcement: client.sessionId + ' connected' });
     
-    client.on('message',function() {
-        console.log('Received a message from the client');
+    client.on('message',function(message) {
+        console.log('Received a message from the client : ' + message);
+        client.broadcast({ announcement: 'message from ' + client.sessionId + ' : ' + message });
 
     });
     client.on('disconnect', function() {

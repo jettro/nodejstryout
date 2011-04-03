@@ -9,5 +9,6 @@ div#articles
             div.body #{blog.body}
 div#helloworld
     span Enter a message to be echoed
-    input(type="text", id="newMessage", size="50")
-    input(type="button", value="Echo", onClick="javascript:sendMessage()")
+    form(action="javascript:sendMessage()")
+        input(type="text", id="newMessage", size="50")
+        input(type="submit",value="Send Message")

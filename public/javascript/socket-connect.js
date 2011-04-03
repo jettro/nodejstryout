@@ -18,4 +18,6 @@ function writeMessage(message) {
 
 function sendMessage() {
     socket.send($("#newMessage").val());
+    writeMessage("The message is send");
+    $("#newMessage").val("")
 }

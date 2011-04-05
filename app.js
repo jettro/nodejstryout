@@ -7,8 +7,6 @@ var app = express.createServer();
 
 var ArticleProvider = require('./articleprovider-memory').ArticleProvider;
 
-var socket = io.listen(app);
-
 app.configure(function() {
     app.set('view engine', 'jade');
     app.set('views', __dirname + '/views');
@@ -23,7 +21,7 @@ var articleProvider = new ArticleProvider();
 
 app.get('/', function(req, res) {
     articleProvider.findAll(function(error, docs) {
-        res.render('blog', {locals: {docs: docs}});
+        res.render('blog', {locals: {docs: docs}, layout: false });
     });
 });
 
@@ -32,10 +30,9 @@ app.get('/blog/new', function (req, res) {
 });
 
 app.post('/blog/new', function (req, res) {
-    console.log('The provided title is : %s',req.body.new_title);
+    console.log('The provided title is : %s', req.body.new_title);
     articleProvider.save({title: req.body.new_title, body: req.body.new_body},
             function(error, docs) {
-                socket.emit('saved');
                 res.redirect('/');
             });
 });
@@ -43,20 +40,32 @@ app.post('/blog/new', function (req, res) {
 app.listen(8008);
 console.log('Express server started on port %s', app.address().port);
 
-socket.on('connection', function(client) {
-    console.log('A client connected');
-    client.broadcast({ announcement: client.sessionId + ' connected' });
-    
-    client.on('message',function(message) {
-        console.log('Received a message from the client : ' + message);
-        client.broadcast({ announcement: 'message from ' + client.sessionId + ' : ' + message });
+var everyone = require("now").initialize(app);
 
-    });
-    client.on('disconnect', function() {
-        console.log('Client disconnected');
-    });
+everyone.now.availablePersons = [];
+
+everyone.now.distributeMessage = function(message) {
+    console.log('Received a message to distribute: %s for %s', message, this.now.name);
+    everyone.now.receiveMessage(this.now.name, message);
+};
+everyone.connected(function() {
+    console.log("Joined: " + this.now.name);
+    everyone.now.availablePersons[everyone.now.availablePersons.length] = this.now.name;
+    console.log("Number of available persons now is : %s", everyone.now.availablePersons.length);
+    everyone.now.newlyJoined(this.now.name);
+    everyone.now.refreshPersonsList();
 });
 
-socket.on('saved',function() {
-    console.log('Yep it is saved and I received an event!!');
+everyone.disconnected(function() {
+    console.log("Left: " + this.now.name);
+    var myArray = everyone.now.availablePersons;
+    for (var i = myArray.length - 1; i >= 0; i--) {
+        if (myArray[i] == 'this.now.name') {
+            myArray.splice(i, 1);
+        }
+    }
+    everyone.now.availablePersons = myArray;
+    everyone.now.hasLeft(this.now.name);
+    everyone.now.refreshPersonsList();
 });
+

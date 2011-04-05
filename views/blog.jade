@@ -1,14 +1,31 @@
-h1 My blog
-div
-    a(href='/blog/new') New blog item
-div#articles
-    - each blog in docs
-        div.article
-            div.title #{blog.title}
-            div.created_at #{blog.created_at}
-            div.body #{blog.body}
-div#helloworld
-    span Enter a message to be echoed
-    form(action="javascript:sendMessage()")
-        input(type="text", id="newMessage", size="50")
-        input(type="submit",value="Send Message")
+!!! 5
+html(lang="en")
+    head
+        title My Blog
+        link(href="/style/style.css", media="screen", rel="stylesheet", type="text/css")
+        script(src='/javascript/jquery-1.5.2.min.js')
+        script(src='/nowjs/now.js')
+        script(src='/javascript/socket-connect.js')
+        script(type='text/javascript')
+            $(document).ready(function() {
+                now.name = prompt("What's your name?", "")
+            });
+    body
+        div#message
+        div#body
+            h1 My blog
+            div
+                a(href='/blog/new') New blog item
+            div#articles
+                - each blog in docs
+                    div.article
+                        div.title #{blog.title}
+                        div.created_at #{blog.created_at}
+                        div.body #{blog.body}
+            div#helloworld
+                span Enter a message to be echoed
+                form(action="javascript:sendMessage()")
+                    input(type="text", id="newMessage", size="50")
+                    input(type="submit",value="Send Message")
+            div#availablePersons
+        

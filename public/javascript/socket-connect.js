@@ -7,21 +7,26 @@ function sendMessage() {
     $("#newMessage").val("");
 }
 
-now.receiveMessage = function(name, message) {
-    writeMessage(name + ": " + message);
-};
+$(document).ready(function() {
 
-now.newlyJoined = function(name) {
-    writeMessage(name + " Joined");
-};
+    now.receiveMessage = function(name, message) {
+        writeMessage(name + ": " + message);
+    };
 
-now.hasLeft = function(name) {
-    writeMessage(name + " Left");
-};
+    now.newlyJoined = function(name) {
+        writeMessage(name + " Joined");
+    };
 
-now.refreshPersonsList = function() {
-    $(".person").remove();
-    for (var i = 0; i < now.availablePersons.length; i++) {
-        $("#availablePersons").append("<div class='person'>" + now.availablePersons[i] + "</div>");
-    }
-};
+    now.hasLeft = function(name) {
+        writeMessage(name + " Left");
+    };
+
+    now.refreshPersonsList = function() {
+        $(".person").remove();
+        for (var i = 0; i < now.availablePersons.length; i++) {
+            $("#availablePersons").append("<div class='person'>" + now.availablePersons[i] + "</div>");
+        }
+    };
+
+    now.name = prompt("What's your name?", "")
+});

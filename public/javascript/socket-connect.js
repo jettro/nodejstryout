@@ -21,10 +21,8 @@ now.hasLeft = function(name) {
 };
 
 now.refreshPersonsList = function() {
-    $("#.person").remove();
-    var tempAvailPersons = now.availablePersons;
-    writeMessage("amount of persons : " + tempAvailPersons.length);
-    for (var i = 0; i < tempAvailPersons.length; i++) {
-        $("#availablePersons").append("<div class='person'>" + tempAvailPersons[i] + "</div>");
+    $(".person").remove();
+    for (var i = 0; i < now.availablePersons.length; i++) {
+        $("#availablePersons").append("<div class='person'>" + now.availablePersons[i] + "</div>");
     }
 };

@@ -40,32 +40,47 @@ app.post('/blog/new', function (req, res) {
 app.listen(8008);
 console.log('Express server started on port %s', app.address().port);
 
-var everyone = require("now").initialize(app);
 
+// Configure NowJS
+var everyone = require("now").initialize(app);
 everyone.now.availablePersons = [];
 
 everyone.now.distributeMessage = function(message) {
     console.log('Received a message to distribute: %s for %s', message, this.now.name);
     everyone.now.receiveMessage(this.now.name, message);
 };
+
 everyone.connected(function() {
     console.log("Joined: " + this.now.name);
-    everyone.now.availablePersons[everyone.now.availablePersons.length] = this.now.name;
-    console.log("Number of available persons now is : %s", everyone.now.availablePersons.length);
-    everyone.now.newlyJoined(this.now.name);
-    everyone.now.refreshPersonsList();
+    if (nameIsDefined(this.now.name)) {
+        addNameToAvailablePersons(this.now.name);
+        everyone.now.newlyJoined(this.now.name);
+        everyone.now.refreshPersonsList();
+    }
 });
 
 everyone.disconnected(function() {
     console.log("Left: " + this.now.name);
-    var myArray = everyone.now.availablePersons;
-    for (var i = myArray.length - 1; i >= 0; i--) {
-        if (myArray[i] == 'this.now.name') {
-            myArray.splice(i, 1);
-        }
+    if (nameIsDefined(this.now.name)) {
+        removeNameFromAvailablePersons(this.now.name);
+        everyone.now.hasLeft(this.now.name);
+        everyone.now.refreshPersonsList();
     }
-    everyone.now.availablePersons = myArray;
-    everyone.now.hasLeft(this.now.name);
-    everyone.now.refreshPersonsList();
 });
 
+// Utility functions
+function removeNameFromAvailablePersons(name) {
+    for (var i = everyone.now.availablePersons.length - 1; i >= 0; i--) {
+        if (everyone.now.availablePersons[i] == name) {
+            everyone.now.availablePersons.splice(i, 1);
+        }
+    }
+}
+
+function addNameToAvailablePersons(name) {
+    everyone.now.availablePersons[everyone.now.availablePersons.length] = name;
+}
+
+function nameIsDefined(name) {
+    return undefined != name;
+}

@@ -4,7 +4,6 @@ function writeMessage(message) {
 
 function sendMessage() {
     now.distributeMessage($("#newMessage").val());
-    writeMessage("The message is send");
     $("#newMessage").val("")
 }
 

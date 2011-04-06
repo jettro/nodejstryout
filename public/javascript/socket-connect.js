@@ -4,7 +4,7 @@ function writeMessage(message) {
 
 function sendMessage() {
     now.distributeMessage($("#newMessage").val());
-    $("#newMessage").val("")
+    $("#newMessage").val("");
 }
 
 now.receiveMessage = function(name, message) {

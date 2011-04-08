@@ -7,7 +7,6 @@ function writeMessage(message) {
 function writeLog() {
     var start = (lastLog > 0)?lastLog:0;
     lastLog = now.logs.length;
-    writeMessage("Start writing logs at: " + start);
     for (var i = start; i < now.logs.length; i++) {
         $("#logs").prepend("<div>" + now.logs[i]  + "</div>")
     }

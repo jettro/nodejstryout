@@ -93,6 +93,10 @@ function nameIsDefined(name) {
 
 function addToLog(message) {
     console.log(message);
+    if (everyone.now == undefined) {
+        console.log("For some reason the everyone.now is undefined");
+        return;
+    }
     everyone.now.logs[everyone.now.logs.length] = message;
 }
 

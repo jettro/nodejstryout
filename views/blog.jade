@@ -24,4 +24,7 @@ html(lang="en")
                     input(type="text", id="newMessage", size="50")
                     input(type="submit",value="Send Message")
             div#availablePersons
-        
+        div
+            input(type="button", value="refresh log", onClick="writeLog();")
+            input(type="button", value="clean log", onClick="cleanLog();")
+        div#logs

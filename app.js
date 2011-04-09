@@ -38,9 +38,11 @@ app.post('/blog/new', function (req, res) {
 });
 
 // Configure NowJS
-var everyone = require("now").initialize(app);
+var nowjs = require("now");
+var everyone = nowjs.initialize(app);
+
 everyone.now.availablePersons = [];
-everyone.now.logs = ['does this help?'];
+var logs = [];
 
 everyone.now.distributeMessage = function(message) {
     console.log('Received a message to distribute: %s for %s', message, this.now.name);
@@ -48,7 +50,11 @@ everyone.now.distributeMessage = function(message) {
 };
 
 everyone.now.cleanLogs = function() {
-    everyone.now.logs = [];
+    logs = [];
+};
+
+everyone.now.obtainLogs = function(callback) {
+    callback(null,logs);
 };
 
 everyone.connected(function() {
@@ -93,11 +99,7 @@ function nameIsDefined(name) {
 
 function addToLog(message) {
     console.log(message);
-    if (everyone.now == undefined) {
-        console.log("For some reason the everyone.now is undefined");
-        return;
-    }
-    everyone.now.logs[everyone.now.logs.length] = message;
+    logs[logs.length] = message;
 }
 
 app.listen(8008);

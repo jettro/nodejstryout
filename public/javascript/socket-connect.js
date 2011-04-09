@@ -6,10 +6,11 @@ function writeMessage(message) {
 
 function writeLog() {
     var start = (lastLog > 0)?lastLog:0;
-    lastLog = now.logs.length;
-    for (var i = start; i < now.logs.length; i++) {
-        $("#logs").prepend("<div>" + now.logs[i]  + "</div>")
-    }
+    lastLog = now.obtainLogs(function(error,logs) {
+        for (var i = start; i < logs.length; i++) {
+            $("#logs").prepend("<div>" + logs[i]  + "</div>")
+        }
+    });
 }
 
 function cleanLog() {

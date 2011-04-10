@@ -23,6 +23,7 @@ Socketio.prototype.init = function(app) {
             if ('newName' in message) {
                 console.log("Received a new name: " + message.newName);
                 clients[client.sessionId] = message.newName;
+                sendClients(client);
                 return;
             }
             var msg = { chat: [clients[client.sessionId], message.message] };
@@ -33,8 +34,24 @@ Socketio.prototype.init = function(app) {
 
         client.on('disconnect', function() {
             client.broadcast({ announcement: client.sessionId + ' disconnected' });
+            removeClient(client.sessionId);
+            sendClients(client)
         });
     });
+
+    function removeClient(id) {
+        delete clients[id];
+    }
+
+    function sendClients(client) {
+        var curClients = [];
+        for (var i in clients) {
+            curClients[curClients.length] = clients[i];
+        }
+        console.log("Number of clients: " + curClients);
+        client.broadcast({users: curClients});
+        client.send({users: curClients});
+    }
 };
 
 module.exports = Socketio;

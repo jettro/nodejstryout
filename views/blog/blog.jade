@@ -1,0 +1,13 @@
+div#body
+    h1 My blog
+    div
+        span
+            a(href='/') Home
+        span
+            a(href='/blog/new') New blog item
+    div#articles
+        - each blog in docs
+            div.article
+                div.title #{blog.title}
+                div.created_at #{blog.created_at}
+                div.body #{blog.body}

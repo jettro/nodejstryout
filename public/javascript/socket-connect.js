@@ -22,6 +22,11 @@ function sendMessage() {
     $("#newMessage").val("");
 }
 
+function setName() {
+    writeMessage("Name is set to: " + $("#visitorName").val());
+    now.name = $("#visitorName").val();
+    now.enterGeneralRoom();
+}
 $(document).ready(function() {
 
     now.receiveMessage = function(name, message) {
@@ -43,5 +48,4 @@ $(document).ready(function() {
         }
     };
 
-    now.name = prompt("What's your name?", "")
 });

@@ -15,8 +15,6 @@ h1 {
   text-shadow: 1px 2px 2px #ddd;
   font-size: 60px;}
 
-#body {
-  float: left;}
 
 #articles {
   text-align: left;
@@ -34,12 +32,21 @@ h1 {
 #articles .article .body {
   background-color: #ffa;}
 
+#information {
+  float: left;}
+
 #message {
   width: 200px;
-  float: right;}
+  float: right;
+  border: 1px solid black;}
 #message div {
   border: 1px solid black;
   margin: 2px;}
+
+#chat {
+  width: 300px;
+  float: right;
+  border: 1px solid black;}
 
 #logs {
   width: 400px;

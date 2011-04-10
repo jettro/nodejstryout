@@ -1,9 +1,11 @@
 var pub = __dirname + '/public';
 
+var Socketio = require('./socketio');
+
 var express = require('express')
     , app = express.createServer()
     , site = require('./site')
-    , socketio = require('./socketio')
+    , socketio = new Socketio()
     , nowjs = require('./nowjs')
     , blog = require('./blog');
 
@@ -33,6 +35,7 @@ app.get('/nowjs', nowjs.index);
 
 app.listen(8008);
 console.log('Express server started on port %s', app.address().port);
+socketio.init(app);
 
 // Configure NowJS
 //var nowjs = require("now");

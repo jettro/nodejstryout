@@ -5,12 +5,12 @@ div#information
     div
         span enter your name
         form(action="javascript:setName()")
-            input(type="text", id="visitorName", size="50")
+            input(type="text", id="visitorName", size="20", class="text")
             input(type="submit",value="Set Name")
     div
         span Enter a message to be echoed
         form(action="javascript:sendMessage()")
-            input(type="text", id="newMessage", size="50")
+            textarea(id="newMessage", size="50", cols="20", rows="4")
             input(type="submit",value="Send Message")
 div#message
 div#chat

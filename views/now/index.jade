@@ -1,4 +1,21 @@
-h2 nowjs sample
-div
+h2 now.js sample
+div#information
     span
         a(href='/') Home
+    div
+        span enter your name
+        form(action="javascript:setName()")
+            input(type="text", id="visitorName", size="20", class="text")
+            input(type="submit",value="Set Name")
+    div
+        span Enter a message to be echoed
+        form(action="javascript:sendMessage()")
+            textarea(id="newMessage", size="50", cols="20", rows="4")
+            input(type="submit",value="Send Message")
+    h2 Available users
+    div#users
+div#message
+div#chat
+
+
+script(src='/javascript/local-now.js')

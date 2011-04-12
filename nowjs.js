@@ -18,12 +18,12 @@ Nowjs.prototype.init = function(app) {
     everyone.now.distributeMessage = function(message) {
         console.log('Received a message to distribute: %s for %s', message, this.user.clientId);
         everyone.now.receiveMessage(this.user.clientId, message);
-        everyone.now.refreshPersonsList();
     };
 
     everyone.now.setName = function() {
         addToLog("Set name to: " + this.now.name);
         everyone.now.availablePersons[this.user.clientId] = this.now.name;
+        everyone.now.refreshPersonsList();
     };
 
     everyone.connected(function() {
@@ -41,7 +41,6 @@ Nowjs.prototype.init = function(app) {
 
     function addToLog(message) {
         console.log(message);
-//        logs[logs.length] = message;
     }
 
 };

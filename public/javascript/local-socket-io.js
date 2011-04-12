@@ -1,6 +1,4 @@
 function message(obj) {
-//    $("#message").prepend("<div>Stringify : " + stringify(obj) + "</div>");
-
     if ('message' in obj) {
         $("#message").prepend("<div>" + obj.message[0] + " : " + obj.message[1] + "</div>");
     } else if ('chat' in obj) {
@@ -14,15 +12,6 @@ function message(obj) {
         $("#message").prepend("<div>" + obj.announcement + "</div>");
     }
 }
-
-function stringify(message) {
-    if (Object.prototype.toString.call(message) == '[object Object]') {
-        return '~j~' + JSON.stringify(message);
-    } else {
-        return String(message);
-    }
-}
-
 
 function setName() {
     message({message: ['You','Name is set to: ' + $("#visitorName").val()]});

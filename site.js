@@ -1,9 +1,11 @@
 var consumer_key;
 var consumer_secret;
+var host;
 
 exports.init = function(properties) {
     consumer_key = properties.consumer.key;
     consumer_secret = properties.consumer.secret;
+    host = properties.host;
 };
 
 exports.index = function(req, res) {
@@ -37,7 +39,7 @@ exports.authenticate = function(req, res) {
     oa = new OAuth("https://api.twitter.com/oauth/request_token",
             "https://api.twitter.com/oauth/access_token",
             consumer_key, consumer_secret,
-            "1.0A", "http://dev.gridshore.nl/authenticated", "HMAC-SHA1");
+            "1.0A", host + "/authenticated", "HMAC-SHA1");
     req.session.oauth = oa;
 
     oa.getOAuthRequestToken(function(error, oauth_token, oauth_token_secret, results) {

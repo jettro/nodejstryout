@@ -2,14 +2,19 @@ function App() {
 }
 
 var chat;
+var properties = require('./properties');
+
+
 App.prototype.start = function(chat) {
     var pub = __dirname + '/public';
 
     var express = require('express')
             , app = express.createServer()
-            , site = require('./site')
             , blog = require('./blog');
 
+    var site = require('./site');
+    site.init(properties);
+    
     app.configure(function() {
         app.set('view engine', 'jade');
         app.set('views', __dirname + '/views');

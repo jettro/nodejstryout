@@ -1,0 +1,6 @@
+{
+    "consumer" : {
+        "key":"YOUR KEY",
+        "secret":"YOUR SECRET"
+    }
+}

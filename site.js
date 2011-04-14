@@ -1,8 +1,17 @@
-var consumer_key = "gD4vivMJ2QxeECPr50CGA";
-var consumer_secret = "E2090oHPThSwdVSPDyMfvhFW6styfDRtA9qCDZwle4";
+var consumer_key
+var consumer_secret
+
+exports.init = function(properties) {
+    consumer_key = properties.consumer.key;
+    consumer_secret = properties.consumer.secret;
+};
 
 exports.index = function(req, res) {
-    res.render('index', {locals: {login:'login to this app'}});
+    var loginName = "login to this app";
+    if (req.session.oauth) {
+        loginName = req.session.user.name;
+    }
+    res.render('index', {locals: {loginName:loginName}});
 };
 
 exports.authenticated = function(req, res, next) {
@@ -13,12 +22,13 @@ exports.authenticated = function(req, res, next) {
         oa.getOAuthAccessToken(oauth.token, oauth.token_secret, oauth.verifier,
                 function(error, oauth_access_token, oauth_access_token_secret, results) {
                     if (error) new Error(error);
-                    console.log(results.screen_name)
+                    req.session.user = {name:results.screen_name};
+                    res.redirect("/");
                 }
                 );
-    } else
+    } else {
         next(new Error('No OAuth information stored in the session. How did you get here?'));
-    res.render('index');
+    }
 };
 
 exports.authenticate = function(req, res) {

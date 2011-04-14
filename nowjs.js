@@ -1,17 +1,18 @@
-function Nowjs() {
+function NowjsApp() {
 }
 
 // url handling
-Nowjs.prototype.index = function(req, res) {
+NowjsApp.prototype.index = function(req, res) {
     console.log('Opening up the nowjs sample');
     res.render('now/index', {layout: 'now/layout'})
 };
 
 // nowjs configuration
-var now = require("now");
+var now = require("/Users/jcoenradie/sources/external/nodejs/now");
 var everyone;
 
-Nowjs.prototype.init = function(app) {
+NowjsApp.prototype.init = function(app) {
+    addToLog("Initializing the nowjs app");
     everyone = now.initialize(app, {clientWrite: true});
     everyone.now.availablePersons = [];
 
@@ -26,13 +27,13 @@ Nowjs.prototype.init = function(app) {
         everyone.now.refreshPersonsList();
     };
 
-    everyone.connected(function() {
-        addToLog("Joined: " + this.user.clientId);
+    everyone.on('connect', function() {
         everyone.now.availablePersons[this.user.clientId] = this.user.clientId;
         everyone.now.newlyJoined(this.user.clientId);
+        addToLog("Joined: " + this.user.clientId);
     });
 
-    everyone.disconnected(function() {
+    everyone.on('disconnect', function() {
         addToLog("Left: " + this.user.clientId);
         delete everyone.now.availablePersons[this.user.clientId];
         everyone.now.hasLeft(this.user.clientId);
@@ -45,4 +46,4 @@ Nowjs.prototype.init = function(app) {
 
 };
 
-module.exports = Nowjs;
+module.exports = NowjsApp;

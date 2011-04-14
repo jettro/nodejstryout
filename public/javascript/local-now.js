@@ -8,11 +8,11 @@ function sendMessage() {
 }
 
 function setName() {
-    writeMessage("Name is set to: " + $("#visitorName").val());
-    now.name = $("#visitorName").val();
     now.ready(function() {
-        now.setName();
+        now.name = $("#visitorName").val();
     });
+    writeMessage("Name is set to: " + $("#visitorName").val());
+    now.setName();
 //    now.enterGeneralRoom();
 }
 

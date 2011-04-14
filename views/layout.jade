@@ -5,5 +5,20 @@ html(lang="en")
         link(href="/style/style.css", media="screen", rel="stylesheet", type="text/css")
         script(src='/javascript/jquery-1.5.2.min.js')
     body
+        div#header
+            img(src="/images/logo.png")
+            div#login
+                span login
+            div
+                h1 Gridshore
+                p A weblog about software engineering, Architecture, Technology an other things we like.
+        div#navigation
+            ul
+                li
+                    a(href="/") Home
+                li
+                    a(href="/blog") Blog
+                li
+                    a(href="/chat") Chat
         div#message
         div#body!= body

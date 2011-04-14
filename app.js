@@ -1,13 +1,14 @@
-function App() {}
+function App() {
+}
 
 var chat;
 App.prototype.start = function(chat) {
     var pub = __dirname + '/public';
 
     var express = require('express')
-        , app = express.createServer()
-        , site = require('./site')
-        , blog = require('./blog');
+            , app = express.createServer()
+            , site = require('./site')
+            , blog = require('./blog');
 
     app.configure(function() {
         app.set('view engine', 'jade');
@@ -18,10 +19,14 @@ App.prototype.start = function(chat) {
         app.use(express.static(pub));
         app.use(express.logger());
         app.use(express.bodyParser());
+        app.use(express.cookieParser());
+        app.use(express.session({ secret: "keyboard cat" }));
     });
 
 // general
     app.get('/', site.index);
+    app.get('/authenticate', site.authenticate);
+    app.get('/authenticated', site.authenticated);
 
 // blog
     app.get('/blog', blog.index);

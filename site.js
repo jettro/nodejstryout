@@ -7,8 +7,8 @@ exports.init = function(properties) {
 };
 
 exports.index = function(req, res) {
-    var loginName = "login to this app";
-    if (req.session.oauth) {
+    var loginName = '';
+    if (req.session.oauth && req.session.user) {
         loginName = req.session.user.name;
     }
     res.render('index', {locals: {loginName:loginName}});

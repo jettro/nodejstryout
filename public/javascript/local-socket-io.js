@@ -16,6 +16,8 @@ function message(obj) {
 function setName() {
     message({message: ['You','Name is set to: ' + $("#visitorName").val()]});
     socket.send({newName: $("#visitorName").val()});
+    $("#visitorName").attr('readonly', true);
+    $("#setNameButton").hide();
 }
 
 function sendMessage() {
@@ -38,17 +40,20 @@ socket.on('message', function(obj) {
 
 
 socket.on('connect', function() {
-    message({ message: ['System', 'Connected']})
+    message({ message: ['System', 'Connected']});
+    if ($("#visitorName").val() != '') {
+        setName();
+    }
 });
 socket.on('disconnect', function() {
-    message({ message: ['System', 'Disconnected']})
+    message({ message: ['System', 'Disconnected']});
 });
 socket.on('reconnect', function() {
-    message({ message: ['System', 'Reconnected to server']})
+    message({ message: ['System', 'Reconnected to server']});
 });
 socket.on('reconnecting', function(nextRetry) {
-    message({ message: ['System', 'Attempting to re-connect to the server, next attempt in ' + nextRetry + 'ms']})
+    message({ message: ['System', 'Attempting to re-connect to the server, next attempt in ' + nextRetry + 'ms']});
 });
 socket.on('reconnect_failed', function() {
-    message({ message: ['System', 'Reconnected to server FAILED.']})
+    message({ message: ['System', 'Reconnected to server FAILED.']});
 });

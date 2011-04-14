@@ -4,7 +4,12 @@ function Socketio() {
 // url handling
 Socketio.prototype.index = function(req, res) {
     console.log('Opening up the socket.io sample');
-    res.render('socketio/index', {layout: 'socketio/layout'})
+    var loginName='';
+    if (req.session.oauth) {
+        loginName = req.session.user.name;
+    }
+
+    res.render('socketio/index', {layout: 'socketio/layout', locals:{loginName:loginName}});
 };
 
 // socket io configuration
@@ -16,13 +21,12 @@ Socketio.prototype.init = function(app) {
 
     io.on('connection', function(client) {
         client.send({ buffer: buffer });
-        clients[client.sessionId] = client.sessionId;
-        client.broadcast({ announcement: client.sessionId + ' connected' });
 
         client.on('message', function(message) {
             if ('newName' in message) {
                 console.log("Received a new name: " + message.newName);
                 clients[client.sessionId] = message.newName;
+                client.broadcast({ announcement: clients[client.sessionId] + ' connected' });
                 sendClients(client);
                 return;
             }
@@ -33,7 +37,7 @@ Socketio.prototype.init = function(app) {
         });
 
         client.on('disconnect', function() {
-            client.broadcast({ announcement: client.sessionId + ' disconnected' });
+            client.broadcast({ announcement: clients[client.sessionId] + ' disconnected' });
             removeClient(client.sessionId);
             sendClients(client)
         });

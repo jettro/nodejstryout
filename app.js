@@ -28,6 +28,12 @@ App.prototype.start = function(chat) {
         app.use(express.session({ secret: "keyboard cat" }));
     });
 
+    app.dynamicHelpers({
+        current_user: function(req) {
+			return req.session.user;
+		}
+    });
+
 // general
     app.get('/', site.index);
     app.get('/authenticate', site.authenticate);

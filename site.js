@@ -1,5 +1,5 @@
-var consumer_key
-var consumer_secret
+var consumer_key;
+var consumer_secret;
 
 exports.init = function(properties) {
     consumer_key = properties.consumer.key;
@@ -43,9 +43,9 @@ exports.authenticate = function(req, res) {
     oa.getOAuthRequestToken(function(error, oauth_token, oauth_token_secret, results) {
         if (error) new Error(error.data);
         else {
-            req.session.oauth.token = oauth_token
-            req.session.oauth.token_secret = oauth_token_secret
-            res.redirect('https://api.twitter.com/oauth/authenticate?oauth_token=' + oauth_token)
+            req.session.oauth.token = oauth_token;
+            req.session.oauth.token_secret = oauth_token_secret;
+            res.redirect('https://api.twitter.com/oauth/authenticate?oauth_token=' + oauth_token);
         }
     });
 };

@@ -1,1 +1,13 @@
-This file was created by JetBrains WebStorm 2.0 for binding GitHub repository
+Welcome to this sample demonstrating some of the options of Node.js
+
+The sample uses expressjs, the layout of the sample is as follows:
+- config [contains configuration files that can make the sample environment specific]
+- public [contains the files that are exposed using the http server like style sheets and client side javascripts]
+- views [contains the views, in my case jade templates and view files]
+
+You can start the application in two modes:
+- app-socketio.js [is functioning and the main focus at the moment]
+- app-now.js [at the moment not a fully functional sample, will be in the near future]
+- app.js [contains the generic part of the application, this way I do not have to program the same thing for the socket.io and nowjs sample]
+
+The final remark is about configuring the sample. If you want to make use of the twitter authentication you have to provide the consumer key and secret as well as the server name for the callback. There is a template for the config.json available in the config folder. Copy the file and name it as config.json.

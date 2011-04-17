@@ -3,18 +3,17 @@ function App() {
 
 var chat;
 var properties = require('./properties');
-
+var Site = require('./site');
+var Blog = require('./blog');
 
 App.prototype.start = function(chat) {
     var pub = __dirname + '/public';
 
     var express = require('express')
             , app = express.createServer()
-            , blog = require('./blog');
+            , blog = new Blog()
+            , site = new Site(properties);
 
-    var site = require('./site');
-    site.init(properties);
-    
     app.configure(function() {
         app.set('view engine', 'jade');
         app.set('views', __dirname + '/views');
@@ -26,12 +25,6 @@ App.prototype.start = function(chat) {
         app.use(express.bodyParser());
         app.use(express.cookieParser());
         app.use(express.session({ secret: "keyboard cat" }));
-    });
-
-    app.dynamicHelpers({
-        current_user: function(req) {
-			return req.session.user;
-		}
     });
 
 // general

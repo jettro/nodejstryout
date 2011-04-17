@@ -1,14 +1,24 @@
+/**
+ * The site module is initialized using a properties object. This objects needs to have the following parameters:
+ * - consumer.key
+ * - consumer.secret
+ * - host
+ *
+ * The key and secret are used to connect to twitter for authentication. The host is used for the callback for twitter.
+ *
+ */
+
 var consumer_key;
 var consumer_secret;
 var host;
 
-exports.init = function(properties) {
+function Site(properties) {
     consumer_key = properties.consumer.key;
     consumer_secret = properties.consumer.secret;
     host = properties.host;
-};
+}
 
-exports.index = function(req, res) {
+Site.prototype.index = function(req, res) {
     var loginName = '';
     if (req.session.oauth && req.session.user) {
         loginName = req.session.user.name;
@@ -16,7 +26,7 @@ exports.index = function(req, res) {
     res.render('index', {locals: {loginName:loginName}});
 };
 
-exports.authenticated = function(req, res, next) {
+Site.prototype.authenticated = function(req, res, next) {
     if (req.session.oauth) {
         req.session.oauth.verifier = req.query.oauth_verifier;
         var oauth = req.session.oauth;
@@ -33,7 +43,7 @@ exports.authenticated = function(req, res, next) {
     }
 };
 
-exports.authenticate = function(req, res) {
+Site.prototype.authenticate = function(req, res) {
     var sys = require('sys');
     var OAuth = require('oauth').OAuth;
     oa = new OAuth("https://api.twitter.com/oauth/request_token",
@@ -51,3 +61,5 @@ exports.authenticate = function(req, res) {
         }
     });
 };
+
+module.exports = Site;

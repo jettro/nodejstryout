@@ -8,9 +8,13 @@ function message(obj) {
         for (var i = 0; i < obj.users.length; i++) {
             $("#users").prepend("<div class='user'>" + obj.users[i] + "</div>")
         }
-    } else {
+    } else if ('buffer' in obj) {
+        for (var j in obj.buffer) message(obj.buffer[j]);
+    } else if ('announcement' in obj) {
         $("#message").prepend("<div>" + obj.announcement + "</div>");
-    }
+    } else {
+		$("#message").prepend("<div>Unknown message type: " + obj + "</div>");
+	}
 }
 
 function setName() {
@@ -31,11 +35,7 @@ var socket = new io.Socket(null, {rememberTransport: false});
 socket.connect();
 
 socket.on('message', function(obj) {
-    if ('buffer' in obj) {
-        for (var i in obj.buffer) message(obj.buffer[i]);
-    } else {
-        message(obj);
-    }
+    message(obj);
 });
 
 

@@ -13,7 +13,8 @@ Socketio.prototype.index = function(req, res) {
 };
 
 // socket io configuration
-var io = require('socket.io'), buffer = [];
+var io = require('socket.io');
+var buffer = [];
 var clients = [];
 
 Socketio.prototype.init = function(app) {

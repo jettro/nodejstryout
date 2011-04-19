@@ -1,0 +1,15 @@
+{
+    "name":"gs-nodejstryout",
+    "description":"A sample application to test features of nodejs",
+    "version":"0.0.1",
+    "author":"Jettro Coenradie <jettro@gridshore.nl>",
+    "dependencies":{
+        "express":"",
+        "jade":"",
+        "socket.io":"",
+        "now":"",
+        "oauth":""
+    },
+    "main":"app-socketio.js"
+
+}

@@ -12,7 +12,7 @@
 var Socketio = require('./socketio');
 var socketio = new Socketio();
 
-var App = require('./app');
-var app = new App();
+var AppUniform = require('./app-uniform');
+var app = new AppUniform();
 
 app.start(socketio);

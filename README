@@ -6,8 +6,13 @@ The sample uses expressjs, the layout of the sample is as follows:
 - views [contains the views, in my case jade templates and view files]
 
 You can start the application in two modes:
-- app-socketio.js [is functioning and the main focus at the moment]
-- app-now.js [at the moment not a fully functional sample, will be in the near future]
-- app.js [contains the generic part of the application, this way I do not have to program the same thing for the socket.io and nowjs sample]
+- socketio [is functioning completely and the main focus at the moment]
+- nowjs [at the moment not a fully functional sample, will be in the near future]
+- app-uniform.js [contains the generic part of the application, this way I do not have to program the same thing for the socket.io and nowjs sample]
+- app.js [used to start the sample, the default is socketio, if you provide nowjs as an argument, that technology is used]
+
+Just to be sure, examples for starting the sample:
+node app.js
+node app.js nowjs
 
 The final remark is about configuring the sample. If you want to make use of the twitter authentication you have to provide the consumer key and secret as well as the server name for the callback. There is a template for the config.json available in the config folder. Copy the file and name it as config.json.

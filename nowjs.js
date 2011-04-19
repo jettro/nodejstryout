@@ -4,7 +4,12 @@ function NowjsApp() {
 // url handling
 NowjsApp.prototype.index = function(req, res) {
     console.log('Opening up the nowjs sample');
-    res.render('now/index', {layout: 'now/layout'})
+    var loginName='';
+    if (req.session.oauth) {
+        loginName = req.session.user.name;
+    }
+
+    res.render('now/index', {layout: 'now/layout', locals:{loginName:loginName}})
 };
 
 // nowjs configuration

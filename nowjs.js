@@ -13,40 +13,55 @@ NowjsApp.prototype.index = function(req, res) {
 };
 
 // nowjs configuration
-var now = require("/Users/jcoenradie/sources/external/nodejs/now");
+var now = require('now');
 var everyone;
+var buffer = [];
 
 NowjsApp.prototype.init = function(app) {
     addToLog("Initializing the nowjs app");
-    everyone = now.initialize(app, {clientWrite: true});
+    everyone = now.initialize(app, {clientWrite: false});
     everyone.now.availablePersons = [];
 
     everyone.now.distributeMessage = function(message) {
-        console.log('Received a message to distribute: %s for %s', message, this.user.clientId);
-        everyone.now.receiveMessage(this.user.clientId, message);
+        console.log('Received a message to distribute: %s for %s', message, everyone.now.availablePersons[this.user.clientId]);
+        var msg = { chat: [everyone.now.availablePersons[this.user.clientId], message] };
+        buffer.push(msg);
+        if (buffer.length > 15) buffer.shift();
+
+        everyone.now.receiveMessage(msg);
     };
 
-    everyone.now.setName = function() {
-        addToLog("Set name to: " + this.now.name);
-        everyone.now.availablePersons[this.user.clientId] = this.now.name;
-        everyone.now.refreshPersonsList();
+    everyone.now.setName = function(name) {
+        addToLog("Set name to: " + name);
+        everyone.now.availablePersons[this.user.clientId] = name;
+        everyone.now.newlyJoined(name);
+        sendClients();
+
     };
 
     everyone.on('connect', function() {
-        everyone.now.availablePersons[this.user.clientId] = this.user.clientId;
-        everyone.now.newlyJoined(this.user.clientId);
         addToLog("Joined: " + this.user.clientId);
+        this.now.bufferedMessages({buffer:buffer});
     });
 
     everyone.on('disconnect', function() {
         addToLog("Left: " + this.user.clientId);
         delete everyone.now.availablePersons[this.user.clientId];
         everyone.now.hasLeft(this.user.clientId);
-        everyone.now.refreshPersonsList();
+        sendClients();
     });
 
     function addToLog(message) {
         console.log(message);
+    }
+
+    function sendClients() {
+        var curClients = [];
+        for (var i in everyone.now.availablePersons) {
+            curClients[curClients.length] = everyone.now.availablePersons[i];
+        }
+        console.log("Number of clients: " + curClients);
+        everyone.now.refreshAvailablePersons({users: curClients});
     }
 
 };

@@ -1,12 +1,10 @@
 h2 now.js sample
 div#information
-    span
-        a(href='/') Home
     div
         span enter your name
         form(action="javascript:setName()")
-            input(type="text", id="visitorName", size="20", class="text")
-            input(type="submit",value="Set Name")
+            input(type="text", id="visitorName", size="20", class="text", value=loginName)
+            input(type="submit", id="setNameButton", value="Set Name")
     div
         span Enter a message to be echoed
         form(action="javascript:sendMessage()")

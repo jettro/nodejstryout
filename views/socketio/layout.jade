@@ -1,13 +1,14 @@
 !!! 5
 html(lang="en")
     head
-        title My Blog
+        title Nodejs tutorial by gridshore
         link(href="/style/style.css", media="screen", rel="stylesheet", type="text/css")
         script(src='/javascript/jquery-1.5.2.min.js')
         script(src='/socket.io/socket.io.js')
     body
         div#header
-            img(src="/images/logo.png")
+            a(href='http://www.gridshore.nl')
+                img(src="/images/logo.png")
             div#login
                 - if (loginName == '')
                     span
@@ -27,3 +28,13 @@ html(lang="en")
                     a(href="/chat") Chat
         div#message
         div#body!= body
+        script(type="text/javascript")
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-180286-1']);
+            _gaq.push(['_trackPageview']);
+
+            (function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+                })();

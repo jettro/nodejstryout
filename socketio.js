@@ -21,8 +21,7 @@ var redis = new Redis();
 
 redis.obtainMessages(function(replies) {
     replies.forEach(function (reply, i) {
-        var chat = JSON.parse(reply);
-        buffer.push(chat);
+        buffer.push(JSON.parse(reply));
     });
     buffer.reverse();
 });

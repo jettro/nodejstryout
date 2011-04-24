@@ -3,5 +3,9 @@
         "key":"YOUR KEY",
         "secret":"YOUR SECRET"
     },
-    "host":"http://localhost:8008"
+    "host":"http://localhost:8008",
+    "redis" : {
+        "enabled":false
+    }
+
 }

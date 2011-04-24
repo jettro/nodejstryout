@@ -16,6 +16,16 @@ Socketio.prototype.index = function(req, res) {
 var io = require('socket.io');
 var buffer = [];
 var clients = [];
+var Redis = require('./redis');
+var redis = new Redis();
+
+redis.obtainMessages(function(replies) {
+    replies.forEach(function (reply, i) {
+        var chat = JSON.parse(reply);
+        buffer.push(chat);
+    });
+    buffer.reverse();
+});
 
 Socketio.prototype.init = function(app) {
     io = io.listen(app);
@@ -35,6 +45,7 @@ Socketio.prototype.init = function(app) {
             buffer.push(msg);
             if (buffer.length > 15) buffer.shift();
             client.broadcast(msg);
+            io.emit('newMessage',msg);
         });
 
         client.on('disconnect', function() {
@@ -42,6 +53,11 @@ Socketio.prototype.init = function(app) {
             removeClient(client.sessionId);
             sendClients(client)
         });
+    });
+
+    io.on('newMessage', function(obj) {
+        console.log("Received a new message: %s by %s", obj.chat[1], obj.chat[0]);
+        redis.storeMessage(JSON.stringify(obj));
     });
 
     function removeClient(id) {

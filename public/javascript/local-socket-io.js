@@ -9,7 +9,9 @@ function message(obj) {
             $("#users").prepend("<div class='user'>" + obj.users[i] + "</div>")
         }
     } else if ('buffer' in obj) {
-        for (var j in obj.buffer) message(obj.buffer[j]);
+        for (var j in obj.buffer) {
+            message(obj.buffer[j]);
+        }
     } else if ('announcement' in obj) {
         $("#message").prepend("<div>" + obj.announcement + "</div>");
     } else {

@@ -1,0 +1,12 @@
+p
+    a(href="/data") Back
+
+p show all messages from the application
+
+table
+    - each message in messages
+        tr
+            td
+                #{message.chat[0]}
+            td
+                #{message.chat[1]}

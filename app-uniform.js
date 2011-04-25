@@ -4,6 +4,7 @@ function AppUniform() {
 var properties = require('./properties');
 var Site = require('./site');
 var Blog = require('./blog');
+var Data = require('./data');
 
 AppUniform.prototype.start = function(chat) {
     var pub = __dirname + '/public';
@@ -11,7 +12,8 @@ AppUniform.prototype.start = function(chat) {
     var express = require('express')
             , app = express.createServer()
             , blog = new Blog()
-            , site = new Site(properties);
+            , site = new Site(properties)
+            , data = new Data(properties);
 
     app.configure(function() {
         app.set('view engine', 'jade');
@@ -36,9 +38,15 @@ AppUniform.prototype.start = function(chat) {
     app.get('/blog/new', blog.blogShowForm);
     app.post('/blog/new', blog.blogPostForm);
 
+// chat
     app.get('/chat', chat.index);
-    app.listen(process.env.VCAP_APP_PORT || 8008);
 
+// data
+    app.get('/data',data.index);
+    app.get('/data/messages',data.messages);
+    app.get('/data/warnings',data.warnings);
+
+    app.listen(process.env.VCAP_APP_PORT || 8008);
     console.log('Express server started on port %s', app.address().port);
 
     chat.init(app);

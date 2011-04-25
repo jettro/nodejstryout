@@ -1,0 +1,12 @@
+p
+    a(href="/data") Back
+
+p show all warnings from the application
+
+table
+    - each warning in warnings
+        tr
+            td
+                #{warning.hack.date}
+            td
+                #{warning.hack.new}

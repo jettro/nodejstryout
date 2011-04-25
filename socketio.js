@@ -18,6 +18,7 @@ var buffer = [];
 var clients = [];
 var Redis = require('./redis');
 var redis = new Redis();
+var sanitize = require('validator').sanitize;
 
 redis.obtainMessages(function(replies) {
     replies.forEach(function (reply, i) {
@@ -33,6 +34,8 @@ Socketio.prototype.init = function(app) {
         client.send({ buffer: buffer });
 
         client.on('message', function(message) {
+            if (hackFoundInMessage(message)) return;
+
             if ('newName' in message) {
                 console.log("Received a new name: " + message.newName);
                 clients[client.sessionId] = message.newName;
@@ -55,7 +58,6 @@ Socketio.prototype.init = function(app) {
     });
 
     io.on('newMessage', function(obj) {
-        console.log("Received a new message: %s by %s", obj.chat[1], obj.chat[0]);
         redis.storeMessage(JSON.stringify(obj));
     });
 
@@ -68,10 +70,22 @@ Socketio.prototype.init = function(app) {
         for (var i in clients) {
             curClients[curClients.length] = clients[i];
         }
-        console.log("Number of clients: " + curClients);
         client.broadcast({users: curClients});
         client.send({users: curClients});
     }
+
+    function hackFoundInMessage(message) {
+        var hackfound = false;
+        var jsonMessage = JSON.stringify(message);
+        var xssMessage = sanitize(jsonMessage).xss();
+        if (jsonMessage != xssMessage) {
+            var hack = {"hack":{"old":jsonMessage, "new":xssMessage, "date":new Date()}};
+            redis.writeWarning(JSON.stringify(hack));
+            hackFound = true; // Might want to do something with a callback
+        }
+        return hackfound;
+    }
+
 };
 
 module.exports = Socketio;

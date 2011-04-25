@@ -32,6 +32,14 @@ Redis.prototype.obtainMessages = function(callback) {
     }
 };
 
+Redis.prototype.writeWarning = function(message) {
+    if (redisEnabled) {
+        initClient();
+        client.lpush("warnings", message);
+        client.quit();
+    }
+}
+
 function initClient() {
     client = redis.createClient();
     client.on("error", function (err) {

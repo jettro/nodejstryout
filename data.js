@@ -15,7 +15,7 @@ Data.prototype.index = function(req,res) {
 Data.prototype.messages = function(req,res) {
     if (!checkAdminUser(req,res)) return;
     var messages = [];
-    redis.obtainMessages(function(replies) {
+    redis.obtainMessages(0,-1,function(replies) {
         replies.forEach(function (reply, i) {
             messages.push(JSON.parse(reply));
         });

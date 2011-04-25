@@ -20,10 +20,10 @@ Redis.prototype.storeMessage = function (chatMessage) {
     }
 };
 
-Redis.prototype.obtainMessages = function(callback) {
+Redis.prototype.obtainMessages = function(start,amount,callback) {
     if (redisEnabled) {
         initClient();
-        client.lrange("messages", 0, 14, function(err, replies) {
+        client.lrange("messages", start, amount-1, function(err, replies) {
             callback(replies);
         });
         client.quit();

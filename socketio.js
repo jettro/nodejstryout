@@ -20,7 +20,7 @@ var Redis = require('./redis');
 var redis = new Redis();
 var sanitize = require('validator').sanitize;
 
-redis.obtainMessages(function(replies) {
+redis.obtainMessages(0,15,function(replies) {
     replies.forEach(function (reply, i) {
         buffer.push(JSON.parse(reply));
     });

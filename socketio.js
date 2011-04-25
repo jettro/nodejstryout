@@ -75,7 +75,7 @@ Socketio.prototype.init = function(app) {
     }
 
     function hackFoundInMessage(message) {
-        var hackfound = false;
+        var hackFound = false;
         var jsonMessage = JSON.stringify(message);
         var xssMessage = sanitize(jsonMessage).xss();
         if (jsonMessage != xssMessage) {
@@ -83,7 +83,7 @@ Socketio.prototype.init = function(app) {
             redis.writeWarning(JSON.stringify(hack));
             hackFound = true; // Might want to do something with a callback
         }
-        return hackfound;
+        return hackFound;
     }
 
 };
